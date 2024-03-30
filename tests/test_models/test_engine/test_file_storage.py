@@ -72,14 +72,16 @@ class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
 
     def setUp(cls):
-        """removing the existing file storage"""
+        """removing the existing file storage
+        before every test"""
         try:
             os.remove('file.json')
         except Exception as ex:
             pass
 
     def tearDown(cls):
-        """removing the existing file storage"""
+        """removing the existing file storage
+        after every test"""
         try:
             os.remove('file.json')
         except Exception as ex:
