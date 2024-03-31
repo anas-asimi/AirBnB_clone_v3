@@ -108,13 +108,28 @@ class TestDBStorage(unittest.TestCase):
         """test that delete remove an object from the database"""
         storage = DBStorage()
         storage.reload()
-        self.assertEqual(storage.all(), {})
+        counts = storage.count()
         my_state = State()
         my_state.name = 'State 01'
         storage.new(my_state)
-        self.assertNotEqual(storage.all(), {})
+        self.assertIs(storage.count(), counts + 1)
         storage.delete(my_state)
-        self.assertEqual(storage.all(), {})
+        self.assertIs(storage.count(), counts)
+        storage.close()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """test that get return an object from the database"""
+        storage = DBStorage()
+        storage.reload()
+        my_state = State()
+        my_state.name = 'State 01'
+        obj = storage.get(my_state.__class__, my_state.id)
+        self.assertIsNone(obj)
+        storage.new(my_state)
+        obj = storage.get(State.__name__, my_state.id)
+        self.assertIsNotNone(obj)
+        self.assertEqual(obj.name, my_state.name)
         storage.close()
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
