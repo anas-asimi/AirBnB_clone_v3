@@ -72,20 +72,14 @@ class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
 
     def setUp(cls):
-        """removing the existing file storage
-        before every test"""
-        try:
-            os.remove('file.json')
-        except Exception as ex:
-            pass
+        """reset file storage"""
+        storage = FileStorage()
+        storage.reset()
 
     def tearDown(cls):
-        """removing the existing file storage
-        after every test"""
-        try:
-            os.remove('file.json')
-        except Exception as ex:
-            pass
+        """reset file storage"""
+        storage = FileStorage()
+        storage.reset()
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_reload_with_no_existing_file_storage(self):
