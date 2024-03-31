@@ -2,4 +2,3 @@ __pycache__
 .venv
 .python-version
 file.json
-test_file.json
