@@ -83,14 +83,14 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_reload_with_no_existing_file_storage(self):
-        """test reload with no file storage (file.json)"""
+        """test reload with no file storage"""
         storage = FileStorage()
         storage.reload()
         self.assertEqual(storage.all(), {})
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_reload_with_file_storage(self):
-        """test reload with file storage (file.json)"""
+        """test reload with file storage"""
         storage = FileStorage()
         storage._FileStorage__file_path = 'tests/test_file.json'
         NUMBER_OF_OBJECTS = 8   # in test_file.json
