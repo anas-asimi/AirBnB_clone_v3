@@ -12,7 +12,7 @@ from models.place import Place
 from models.user import User
 
 
-@app_views.route('/api/v1/cities/<city_id>/places', methods=['GET'],
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def places(city_id):
     """ Retrieves the list of all Place objects of a City """
@@ -57,25 +57,32 @@ def place_create(city_id):
         city = storage.get(City, city_id)
         if city is None:
             raise ValueError()
+
         place_dict = request.get_json()
         user = storage.get(User, place_dict['user_id'])
         if user is None:
             raise ValueError()
+
         place = Place(name=place_dict['name'],
                       city_id=city.id, user_id=user.id)
         storage.new(place)
         storage.save()
         return jsonify(place.to_dict()), 201
+
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
+
         if isinstance(ex, KeyError):
             if 'user_id' in str(ex):
                 abort(400, 'Missing user_id')
+
             if 'name' in str(ex):
                 abort(400, 'Missing name')
+
         if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
+
         print('Exception :')
         print(ex)
         abort(400)
