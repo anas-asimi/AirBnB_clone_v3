@@ -13,15 +13,15 @@ from models.city import City
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def states():
-    """ Retrieves the list of all State """
+    """ Retrieves the list of all State objects """
     all_states = storage.all('State')
     all_states = list(state.to_dict() for state in all_states.values())
     return jsonify(all_states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def states_get(state_id):
-    """ Retrieves a State """
+def state(state_id):
+    """ Retrieves a State object """
     state = storage.get('State', state_id)
     if state:
         return jsonify(state.to_dict())
@@ -30,8 +30,8 @@ def states_get(state_id):
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
-def states_delete(state_id):
-    """ Deletes a State """
+def state_delete(state_id):
+    """ Deletes a State object """
     state = storage.get('State', state_id)
     cities = storage.all(City)
     if state:
@@ -45,7 +45,7 @@ def states_delete(state_id):
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
-def states_post():
+def state_create():
     """ Creates a State """
     try:
         state_dict = request.get_json()
@@ -58,12 +58,14 @@ def states_post():
             abort(400, 'Missing name')
         if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        abort(400, 'Uknown error')
+        print('Exception :')
+        print(ex)
+        abort(500)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def states_update(state_id):
-    """ Updates a State """
+def state_update(state_id):
+    """ Updates a State object """
     try:
         state = storage.get('State', state_id)
         if state is None:
@@ -79,7 +81,9 @@ def states_update(state_id):
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
-        if isinstance(ex, BadRequest):
+        elif isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        print(ex)
-        abort(400, 'Uknown error')
+        else:
+            print('Exception :')
+            print(ex)
+            abort(500)
