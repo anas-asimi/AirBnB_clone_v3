@@ -81,9 +81,8 @@ def state_update(state_id):
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
-        elif isinstance(ex, BadRequest):
+        if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        else:
-            print('Exception :')
-            print(ex)
-            abort(500)
+        print('Exception :')
+        print(ex)
+        abort(500)
