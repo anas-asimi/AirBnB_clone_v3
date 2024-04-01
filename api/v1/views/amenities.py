@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Flask index
+Flask amenities
 """
 
 from flask import jsonify, abort, request
@@ -10,7 +10,8 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities', methods=['GET'],
+                 strict_slashes=False)
 def amenities():
     """ Retrieves the list of all Amenity objects """
     all_amenities = storage.all(Amenity)
@@ -41,7 +42,8 @@ def amenity_delete(amenity_id):
     abort(404)
 
 
-@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
+@app_views.route('/amenities', methods=['POST'],
+                 strict_slashes=False)
 def amenity_create():
     """ Creates a Amenity """
     try:

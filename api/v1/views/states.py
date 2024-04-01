@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Flask index
+Flask states
 """
 
 from flask import jsonify, abort, request
@@ -11,7 +11,8 @@ from models.state import State
 from models.city import City
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.route('/states', methods=['GET'],
+                 strict_slashes=False)
 def states():
     """ Retrieves the list of all State objects """
     all_states = storage.all(State)
@@ -19,7 +20,8 @@ def states():
     return jsonify(all_states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'],
+                 strict_slashes=False)
 def state(state_id):
     """ Retrieves a State object """
     state = storage.get('State', state_id)
@@ -44,7 +46,8 @@ def state_delete(state_id):
     abort(404)
 
 
-@app_views.route('/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'],
+                 strict_slashes=False)
 def state_create():
     """ Creates a State """
     try:
@@ -63,7 +66,8 @@ def state_create():
         abort(400)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'],
+                 strict_slashes=False)
 def state_update(state_id):
     """ Updates a State object """
     try:
