@@ -14,11 +14,13 @@ from models.amenity import Amenity
 def amenities():
     """ Retrieves the list of all Amenity objects """
     all_amenities = storage.all(Amenity)
-    all_amenities = list(amenity.to_dict() for amenity in all_amenities.values())
+    all_amenities = list(
+        amenity.to_dict() for amenity in all_amenities.values())
     return jsonify(all_amenities)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
 def amenity(amenity_id):
     """ Retrieves a Amenity object """
     amenity = storage.get(Amenity, amenity_id)
@@ -58,7 +60,8 @@ def amenity_create():
         abort(400)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def amenity_update(amenity_id):
     """ Updates a Amenity object """
     try:
