@@ -22,7 +22,7 @@ classes = {"amenities": Amenity, "cities": City, "places": Place,
 def status():
     """ return status """
     response = {"status": "OK"}
-    return json.dumps(response, sort_keys = True, indent = 2)
+    return json.dumps(response, sort_keys=True, indent=2)
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
@@ -31,4 +31,4 @@ def stats():
     response = {}
     for clss in classes:
         response[clss] = storage.count(classes[clss])
-    return json.dumps(response, sort_keys = True, indent = 2)
+    return json.dumps(response, sort_keys=True, indent=2)
