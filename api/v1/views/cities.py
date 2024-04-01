@@ -7,6 +7,7 @@ from flask import jsonify, abort, request
 from werkzeug.exceptions import BadRequest
 from api.v1.views import app_views
 from models import storage
+from models.state import State
 from models.city import City
 
 
@@ -14,7 +15,7 @@ from models.city import City
                  strict_slashes=False)
 def cities(state_id):
     """ Retrieves the list of all City objects of a State """
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     all_cities = storage.all('City')
@@ -52,7 +53,7 @@ def city_delete(city_id):
 def city_create(state_id):
     """ Creates a City """
     try:
-        state = storage.get('State', state_id)
+        state = storage.get(State, state_id)
         if state is None:
             raise ValueError()
         city_dict = request.get_json()
@@ -89,13 +90,12 @@ def city_update(city_id):
         for key, value in city_dict.items():
             setattr(city, key, value)
         storage.save()
-        return jsonify(city.to_dict()), 200
+        return jsonify(city.to_dict())
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
-        elif isinstance(ex, BadRequest):
+        if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        else:
-            print('Exception :')
-            print(ex)
-            abort(400)
+        print('Exception :')
+        print(ex)
+        abort(400)
