@@ -58,8 +58,6 @@ def state_create():
             abort(400, 'Missing name')
         if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        print('Exception :')
-        print(ex)
         abort(500)
 
 
@@ -83,6 +81,4 @@ def state_update(state_id):
             abort(404)
         if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        print('Exception :')
-        print(ex)
         abort(500)
