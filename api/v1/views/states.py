@@ -58,7 +58,9 @@ def state_create():
             abort(400, 'Missing name')
         if isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        abort(400, 'Uknown error')
+        print('Exception :')
+        print(ex)
+        abort(400)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -79,7 +81,9 @@ def state_update(state_id):
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
-        if isinstance(ex, BadRequest):
+        elif isinstance(ex, BadRequest):
             abort(400, 'Not a JSON')
-        print(ex)
-        abort(400, 'Uknown error')
+        else:
+            print('Exception :')
+            print(ex)
+            abort(400)
