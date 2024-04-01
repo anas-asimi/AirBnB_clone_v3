@@ -77,7 +77,7 @@ def state_update(state_id):
         for key, value in state_dict.items():
             setattr(state, key, value)
         storage.save()
-        return jsonify(state.to_dict()), 200
+        return jsonify(state.to_dict())
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
