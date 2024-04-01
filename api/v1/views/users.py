@@ -9,6 +9,7 @@ from werkzeug.exceptions import BadRequest
 from api.v1.views import app_views
 from models import storage
 from models.user import User
+from models.place import Place
 
 
 @app_views.route('/users', methods=['GET'],
@@ -35,7 +36,11 @@ def user(user_id):
 def user_delete(user_id):
     """ Deletes a User object """
     user = storage.get(User, user_id)
+    places = storage.all(Place)
     if user:
+        for place in places.values():
+            if place.user_id == user.id:
+                storage.delete(place)
         storage.delete(user)
         storage.save()
         return jsonify({})

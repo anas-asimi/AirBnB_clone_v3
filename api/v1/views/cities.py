@@ -9,6 +9,7 @@ from api.v1.views import app_views
 from models import storage
 from models.state import State
 from models.city import City
+from models.place import Place
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
@@ -41,7 +42,11 @@ def city(city_id):
 def city_delete(city_id):
     """ Deletes a City object """
     city = storage.get(City, city_id)
+    places = storage.all(Place)
     if city:
+        for place in places.values():
+            if place.city_id == city.id:
+                storage.delete(place)
         storage.delete(city)
         storage.save()
         return jsonify({})
