@@ -17,6 +17,7 @@ def close_storage(exception):
     """ after each request, this method calls storage.close() """
     storage.close()
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     """ return Not found """
