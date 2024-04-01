@@ -68,7 +68,7 @@ def city_create(state_id):
         else:
             print('Exception :')
             print(ex)
-            abort(500)
+            abort(400)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
@@ -95,4 +95,4 @@ def city_update(city_id):
         else:
             print('Exception :')
             print(ex)
-            abort(500)
+            abort(400)
