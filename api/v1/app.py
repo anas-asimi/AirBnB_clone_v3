@@ -3,8 +3,9 @@
 Flask API
 """
 
+import json
 from os import getenv
-from flask import Flask, jsonify
+from flask import Flask
 from models import storage
 from api.v1.views import app_views
 
@@ -22,7 +23,7 @@ def close_storage(exception):
 def page_not_found(error):
     """ return Not found """
     response = {"error": "Not found"}
-    return jsonify(response), 404
+    return json.dumps(response, sort_keys=True, indent=2), 404
 
 
 if __name__ == '__main__':
