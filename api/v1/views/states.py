@@ -3,9 +3,8 @@
 Flask index
 """
 
-from flask import abort, request
+from flask import jsonify, abort, request
 from werkzeug.exceptions import BadRequest
-import json
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -17,7 +16,7 @@ def states():
     """ Retrieves the list of all State """
     all_states = storage.all('State')
     all_states = list(state.to_dict() for state in all_states.values())
-    return json.dumps(all_states, sort_keys=True, indent=2)
+    return jsonify(all_states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -25,7 +24,7 @@ def states_get(state_id):
     """ Retrieves a State """
     state = storage.get('State', state_id)
     if state:
-        return json.dumps(state.to_dict(), sort_keys=True, indent=2)
+        return jsonify(state.to_dict())
     abort(404)
 
 
@@ -41,7 +40,7 @@ def states_delete(state_id):
                 storage.delete(city)
         storage.delete(state)
         storage.save()
-        return json.dumps({})
+        return jsonify({})
     abort(404)
 
 
@@ -53,7 +52,7 @@ def states_post():
         state = State(name=state_dict['name'])
         storage.new(state)
         storage.save()
-        return json.dumps(state.to_dict(), sort_keys=True, indent=2), 201
+        return jsonify(state.to_dict()), 201
     except Exception as ex:
         if isinstance(ex, KeyError):
             abort(400, 'Missing name')
@@ -76,7 +75,7 @@ def states_update(state_id):
         for key, value in state_dict.items():
             setattr(state, key, value)
         storage.save()
-        return json.dumps(state.to_dict(), sort_keys=True, indent=2), 200
+        return jsonify(state.to_dict()), 200
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)

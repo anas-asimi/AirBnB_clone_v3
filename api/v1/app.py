@@ -3,14 +3,14 @@
 Flask API
 """
 
-import json
 from os import getenv
-from flask import Flask
+from flask import Flask ,jsonify
 from models import storage
 from api.v1.views import app_views
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 @app.teardown_appcontext
@@ -23,7 +23,7 @@ def close_storage(exception):
 def page_not_found(error):
     """ return Not found """
     response = {"error": "Not found"}
-    return json.dumps(response, sort_keys=True, indent=2), 404
+    return jsonify(response), 404
 
 
 if __name__ == '__main__':
