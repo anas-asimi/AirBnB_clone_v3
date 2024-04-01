@@ -3,7 +3,7 @@
 Flask index
 """
 
-from flask import jsonify
+import json
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
@@ -14,15 +14,15 @@ from models.state import State
 from models.user import User
 
 
-classes = {"Amenity": Amenity, "City": City, "Place": Place,
-           "Review": Review, "State": State, "User": User}
+classes = {"amenities": Amenity, "cities": City, "places": Place,
+           "reviews": Review, "states": State, "users": User}
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """ return status """
     response = {"status": "OK"}
-    return jsonify(response)
+    return json.dumps(response, sort_keys = True, indent = 2)
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
@@ -31,4 +31,4 @@ def stats():
     response = {}
     for clss in classes:
         response[clss] = storage.count(classes[clss])
-    return jsonify(response)
+    return json.dumps(response, sort_keys = True, indent = 2)
