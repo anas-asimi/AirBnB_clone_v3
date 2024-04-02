@@ -52,7 +52,7 @@ def review_delete(review_id):
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def review_create(place_id):
-    """ Creates a Place """
+    """ Creates a Review """
     try:
         place = storage.get(Place, place_id)
         if place:
@@ -65,7 +65,7 @@ def review_create(place_id):
                         place_id=place.id, user_id=user.id)
         storage.new(review)
         storage.save()
-        return jsonify(place.to_dict()), 201
+        return jsonify(review.to_dict()), 201
     except Exception as ex:
         if isinstance(ex, ValueError):
             abort(404)
