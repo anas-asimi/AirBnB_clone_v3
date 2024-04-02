@@ -21,9 +21,9 @@ def reviews(place_id):
         abort(404)
     all_reviews = storage.all(Review)
     place_reviews = []
-    for review in all_reviews:
-        if all_reviews[review].place_id == place_id:
-            place_reviews.append(all_reviews[review].to_dict())
+    for review in all_reviews.values():
+        if review.place_id == place.id:
+            place_reviews.append(review.to_dict())
     return jsonify(place_reviews)
 
 
