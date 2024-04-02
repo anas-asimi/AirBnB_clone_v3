@@ -28,6 +28,7 @@ cors = CORS(app, resources={r'/*': {'origins': HBNB_API_HOST}})
 # app_views register blueprint
 app.register_blueprint(app_views)
 
+
 # close db after requests
 @app.teardown_appcontext
 def close_storage(exception):
