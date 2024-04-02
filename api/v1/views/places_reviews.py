@@ -63,7 +63,7 @@ def review_create(place_id):
         if user is None:
             raise ValueError()
         review = Review(text=review_dict['text'],
-                      place_id=place.id, user_id=user.id)
+                        place_id=place.id, user_id=user.id)
         storage.new(review)
         storage.save()
         return jsonify(place.to_dict()), 201
