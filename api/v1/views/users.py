@@ -37,9 +37,9 @@ def user(user_id):
 def user_delete(user_id):
     """ Deletes a User object """
     user = storage.get(User, user_id)
-    places = storage.all(Place)
-    reviews = storage.all(Review)
     if user:
+        places = storage.all(Place)
+        reviews = storage.all(Review)
         for place in places.values():
             if place.user_id == user.id:
                 storage.delete(place)
