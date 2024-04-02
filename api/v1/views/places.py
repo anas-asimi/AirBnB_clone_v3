@@ -16,8 +16,8 @@ from models.user import User
                  strict_slashes=False)
 def places(city_id):
     """ Retrieves the list of all Place objects of a City """
-    place = storage.get(City, city_id)
-    if place is None:
+    city = storage.get(City, city_id)
+    if city is None:
         abort(404)
     all_places = storage.all(Place)
     city_places = []
