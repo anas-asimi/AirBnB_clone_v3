@@ -43,8 +43,8 @@ def place(place_id):
 def place_delete(place_id):
     """ Deletes a Place object """
     place = storage.get(Place, place_id)
-    reviews = storage.all(Review)
     if place:
+        reviews = storage.all(Review)
         for review in reviews.values():
             if review.place_id == place.id:
                 storage.delete(review)
