@@ -10,6 +10,7 @@ from api.v1.views import app_views
 from models import storage
 from models.user import User
 from models.place import Place
+from models.review import Review
 
 
 @app_views.route('/users', methods=['GET'],
@@ -37,10 +38,14 @@ def user_delete(user_id):
     """ Deletes a User object """
     user = storage.get(User, user_id)
     places = storage.all(Place)
+    reviews = storage.all(Review)
     if user:
         for place in places.values():
             if place.user_id == user.id:
                 storage.delete(place)
+        for review in reviews.values():
+            if review.user_id == user.id:
+                storage.delete(review)
         storage.delete(user)
         storage.save()
         return jsonify({})
