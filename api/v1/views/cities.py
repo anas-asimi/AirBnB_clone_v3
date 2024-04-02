@@ -10,6 +10,7 @@ from models import storage
 from models.state import State
 from models.city import City
 from models.place import Place
+from models.review import Review
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
@@ -42,10 +43,14 @@ def city(city_id):
 def city_delete(city_id):
     """ Deletes a City object """
     city = storage.get(City, city_id)
-    places = storage.all(Place)
     if city:
+        places = storage.all(Place)
         for place in places.values():
             if place.city_id == city.id:
+                reviews = storage.all(Review)
+                for review in reviews.values():
+                    if review.place_id == place.id:
+                        storage.delete(review)
                 storage.delete(place)
         storage.delete(city)
         storage.save()
