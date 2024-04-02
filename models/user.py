@@ -33,5 +33,6 @@ class User(BaseModel, Base):
                 secure = hashlib.md5()
                 secure.update(raw_password.encode("utf-8"))
                 md5_password = secure.hexdigest()
-                setattr(kwargs, 'password', md5_password)
+                super().__init__(*args, **kwargs, password=md5_password)
+                return()
         super().__init__(*args, **kwargs)
