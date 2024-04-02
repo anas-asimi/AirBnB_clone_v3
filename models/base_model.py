@@ -68,9 +68,17 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        if not used_by_fileStorage:
-            new_dict.pop('password', None)
+
+        # if "_password" in new_dict:
+        #     if used_by_fileStorage:
+        #         new_dict["hashed_password"] = new_dict["_password"]
+        #     del new_dict["_password"]
+
         return new_dict
+
+    # def __dict__(self):
+    #     """returns a dictionary containing all keys/values of the instance"""
+    #     return self.to_dict()
 
     def delete(self):
         """delete the current instance from the storage"""

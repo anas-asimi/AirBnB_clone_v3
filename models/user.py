@@ -27,12 +27,22 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
-        if kwargs:
-            raw_password = kwargs.pop('password', None)
-            if raw_password:
-                secure = hashlib.md5()
-                secure.update(raw_password.encode("utf-8"))
-                md5_password = secure.hexdigest()
-                super().__init__(*args, **kwargs, password=md5_password)
-                return()
+        # if kwargs:
+        #     if "hashed_password" in kwargs:
+        #         self._password = kwargs.pop('hashed_password')
+        #     elif "password" in kwargs:
+        #         self.password = kwargs.pop('password')
         super().__init__(*args, **kwargs)
+
+    # @property
+    # def password(self):
+    #     """I'm the 'password' property."""
+    #     return self._password
+
+    # @password.setter
+    # def password(self, raw_password):
+    #     """I'm the 'password' property."""
+    #     secure = hashlib.md5()
+    #     secure.update(raw_password.encode("utf-8"))
+    #     md5_password = secure.hexdigest()
+    #     self._password = md5_password
