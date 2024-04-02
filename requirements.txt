@@ -26,3 +26,4 @@ pep8==1.7.1
 
 # Others packages :
 fabric==1.15.0
+Flask-Cors==4.0.0
