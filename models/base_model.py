@@ -76,10 +76,6 @@ class BaseModel:
 
         return new_dict
 
-    # def __dict__(self):
-    #     """returns a dictionary containing all keys/values of the instance"""
-    #     return self.to_dict()
-
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
